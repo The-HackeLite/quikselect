@@ -14,6 +14,11 @@ fn try_selector(selector_str: &'_ str) -> Result<scraper::Selector, SelectorErro
     selector
 }
 
+fn parse_document(document: &'_ str) -> scraper::html::Html {
+    let document = scraper::html::Html::parse_document(document);
+    document
+}
+
 /// Retrieve the inner HTML of a document or fragment
 fn inner_html(document: scraper::html::Html, selector: scraper::Selector) -> String {
     let inner_html = document.select(&selector).next().unwrap().inner_html();

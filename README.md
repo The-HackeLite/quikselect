@@ -7,7 +7,7 @@ If writing loads of repetitive selectors, methods and dealing with large number 
 Install via `Cargo.toml` by using the following line:
 
 ```toml
-quikselect = {git = "https://github.com/The-HackeLite/quikselect}
+quikselect = {git = "https://github.com/The-HackeLite/quikselect"}
 ```
 
 and you're good to go.
