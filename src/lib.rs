@@ -3,30 +3,30 @@ use scraper::error::SelectorErrorKind;
 
 
 /// Create a new selector by providing selector string
-fn selector(selector_str: &'_ str) -> scraper::Selector {
+pub fn selector(selector_str: &'_ str) -> scraper::Selector {
     let selector = scraper::Selector::parse(selector_str).unwrap();
     selector
 }
 
 /// Create a new selector by providing selector string.
-fn try_selector(selector_str: &'_ str) -> Result<scraper::Selector, SelectorErrorKind<'_>>{
+pub fn try_selector(selector_str: &'_ str) -> Result<scraper::Selector, SelectorErrorKind<'_>>{
     let selector = scraper::Selector::parse(selector_str);
     selector
 }
 
-fn parse_document(document: &'_ str) -> scraper::html::Html {
+pub fn parse_document(document: &'_ str) -> scraper::html::Html {
     let document = scraper::html::Html::parse_document(document);
     document
 }
 
 /// Retrieve the inner HTML of a document or fragment
-fn inner_html(document: scraper::html::Html, selector: scraper::Selector) -> String {
+pub fn inner_html(document: scraper::html::Html, selector: scraper::Selector) -> String {
     let inner_html = document.select(&selector).next().unwrap().inner_html();
     inner_html
 }
 
 /// Retrieve the inner HTML of a document or fragment.
-fn try_inner_html(document: scraper::html::Html, selector: scraper::Selector) -> Option<String> {
+pub fn try_inner_html(document: scraper::html::Html, selector: scraper::Selector) -> Option<String> {
     let inner_html_element = document.select(&selector).next();
     if let Some(inner_html) = inner_html_element {
         let inner_html = inner_html.inner_html();
@@ -37,7 +37,7 @@ fn try_inner_html(document: scraper::html::Html, selector: scraper::Selector) ->
 }
 
 /// Retrieve the attribute of a document or selector.
-fn attr(document: scraper::html::Html, selector: scraper::Selector, attribute: &'_ str) -> String {
+pub fn attr(document: scraper::html::Html, selector: scraper::Selector, attribute: &'_ str) -> String {
     let attr_element = document
                                     .select(&selector)
                                     .next()
@@ -49,7 +49,7 @@ fn attr(document: scraper::html::Html, selector: scraper::Selector, attribute: &
 }
 
 /// Retrieve the attribute of a document or selector.
-fn try_attr(document: scraper::html::Html, selector: scraper::Selector, attribute: &'_ str) -> Option<String> {
+pub fn try_attr(document: scraper::html::Html, selector: scraper::Selector, attribute: &'_ str) -> Option<String> {
     let attr_element = document.select(&selector).next();
     if let Some(attr_element) = attr_element {
         let attr = attr_element.attr(attribute);
@@ -65,13 +65,13 @@ fn try_attr(document: scraper::html::Html, selector: scraper::Selector, attribut
 }
 
 /// Retrieve text from a document or fragment.
-fn text(document: scraper::html::Html, selector: scraper::Selector) -> String {
+pub fn text(document: scraper::html::Html, selector: scraper::Selector) -> String {
     let text = document.select(&selector).next().unwrap().text().collect::<String>();
     text
 }
 
 /// Retrieve text from a document or fragment.
-fn try_text(document: scraper::html::Html, selector: scraper::Selector) -> Option<String> {
+pub fn try_text(document: scraper::html::Html, selector: scraper::Selector) -> Option<String> {
     let text_element = document.select(&selector).next();
     if let Some(text_element) = text_element {
         let text = text_element.text().collect::<String>();
@@ -81,12 +81,12 @@ fn try_text(document: scraper::html::Html, selector: scraper::Selector) -> Optio
     }    
 }
 
-fn element<'a>(document: &'a scraper::html::Html, selector: scraper::Selector) -> scraper::ElementRef<'a> {
+pub fn element<'a>(document: &'a scraper::html::Html, selector: scraper::Selector) -> scraper::ElementRef<'a> {
     let element_ref: scraper::ElementRef<'a> = document.select(&selector).next().unwrap();
     element_ref
 }
 
-fn try_element<'a>(document: &'a scraper::html::Html, selector: scraper::Selector) -> Option<scraper::ElementRef<'a>> {
+pub fn try_element<'a>(document: &'a scraper::html::Html, selector: scraper::Selector) -> Option<scraper::ElementRef<'a>> {
     let element_ref: Option<scraper::ElementRef<'a>> = document.select(&selector).next();
     element_ref
 }
