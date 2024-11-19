@@ -96,7 +96,9 @@ pub fn text(document: &Html, selector: &Selector) -> String {
         .next()
         .unwrap()
         .text()
-        .collect::<String>();
+        .collect::<String>()
+        .trim()
+        .to_owned();
     text
 }
 
@@ -104,7 +106,7 @@ pub fn text(document: &Html, selector: &Selector) -> String {
 pub fn try_text(document: &Html, selector: &Selector) -> Option<String> {
     let text_element = document.select(selector).next();
     if let Some(text_element) = text_element {
-        let text = text_element.text().collect::<String>();
+        let text = text_element.text().collect::<String>().trim().to_owned();
         return Some(text);
     } else {
         return None;
@@ -128,7 +130,9 @@ pub fn text_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> St
         .next()
         .unwrap()
         .text()
-        .collect::<String>();
+        .collect::<String>()
+        .trim()
+        .to_owned();
     text
 }
 
@@ -136,7 +140,7 @@ pub fn text_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> St
 pub fn try_text_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> Option<String> {
     let text_element = element.select(selector).next();
     if let Some(text_element) = text_element {
-        let text = text_element.text().collect::<String>();
+        let text = text_element.text().collect::<String>().trim().to_owned();
         return Some(text);
     } else {
         return None;
