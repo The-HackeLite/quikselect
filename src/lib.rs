@@ -117,6 +117,16 @@ pub fn try_element<'a>(document: &'a Html, selector: &Selector) -> Option<Elemen
     element_ref
 }
 
+pub fn select_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> ElementRef<'a> {
+    let element_ref: ElementRef<'a> = element.select(selector).next().unwrap();
+    element_ref
+}
+
+pub fn try_select_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> Option<ElementRef<'a>> {
+    let element_ref: Option<scraper::ElementRef<'a>> = element.select(selector).next();
+    element_ref
+}
+
 #[cfg(test)]
 mod tests {
 
