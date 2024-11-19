@@ -28,15 +28,32 @@ pub fn parse_document(document: &'_ str) -> Html {
     document
 }
 
-/// Retrieve the inner HTML of a document or fragment
+/// Retrieve the inner HTML of a document
 pub fn inner_html(document: &Html, selector: &Selector) -> String {
     let inner_html = document.select(selector).next().unwrap().inner_html();
     inner_html
 }
 
-/// Retrieve the inner HTML of a document or fragment.
+/// Retrieve the inner HTML of a document
 pub fn try_inner_html(document: &Html, selector: &Selector) -> Option<String> {
     let inner_html_element = document.select(selector).next();
+    if let Some(inner_html) = inner_html_element {
+        let inner_html = inner_html.inner_html();
+        Some(inner_html)
+    } else {
+        None
+    }
+}
+
+/// Retrieve the inner HTML of an element ref.
+pub fn element_inner_html(element: &ElementRef<'_>, selector: &Selector) -> String {
+    let inner_html = element.select(selector).next().unwrap().inner_html();
+    inner_html
+}
+
+/// Retrieve the inner HTML of an element ref
+pub fn try_element_inner_html(element: &ElementRef<'_>, selector: &Selector) -> Option<String> {
+    let inner_html_element = element.select(selector).next();
     if let Some(inner_html) = inner_html_element {
         let inner_html = inner_html.inner_html();
         Some(inner_html)
