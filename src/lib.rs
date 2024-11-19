@@ -27,6 +27,21 @@ pub fn parse_document(document: &'_ str) -> Html {
     document
 }
 
+/// Retrieve the inner HTML of an element
+pub fn element_inner_html(element: &ElementRef) -> String {
+    let inner_html = element.inner_html();
+    inner_html
+}
+
+/// Retrieve text from an element
+pub fn element_inner_text(element: &ElementRef) -> String {
+    let text = element.text()
+        .collect::<String>()
+        .trim()
+        .to_owned();
+    text
+}
+
 /// Retrieve the inner HTML of a document
 pub fn inner_html(document: &Html, selector: &Selector) -> String {
     let inner_html = document.select(selector).next().unwrap().inner_html();
@@ -42,12 +57,6 @@ pub fn try_inner_html(document: &Html, selector: &Selector) -> Option<String> {
     } else {
         None
     }
-}
-
-/// Retrieve the inner HTML of an element ref.
-pub fn element_inner_html(element: &ElementRef<'_>, selector: &Selector) -> String {
-    let inner_html = element.select(selector).next().unwrap().inner_html();
-    inner_html
 }
 
 /// Retrieve the inner HTML of an element ref
