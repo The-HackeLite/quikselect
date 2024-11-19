@@ -117,11 +117,58 @@ pub fn try_element<'a>(document: &'a Html, selector: &Selector) -> Option<Elemen
     element_ref
 }
 
+/// Retrieve text from an element.
+pub fn text_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> String {
+    let text = element.select(selector).next().unwrap().text().collect::<String>();
+    text
+}
+
+/// Retrieve text from an element.
+pub fn try_text_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> Option<String> {
+    let text_element = element.select(selector).next();
+    if let Some(text_element) = text_element {
+        let text = text_element.text().collect::<String>();
+        return Some(text);
+    } else {
+        return None;
+    }    
+}
+
+/// Retrieve the attribute of an element.
+pub fn attr_from_element<'a>(element: ElementRef<'a>, selector: &Selector, attribute: &'_ str) -> String {
+    let attr_element = element
+                                .select(selector)
+                                .next()
+                                .unwrap()
+                                .attr(attribute)
+                                .unwrap()
+                                .to_owned();
+    attr_element
+}
+
+/// Retrieve the attribute of an element.
+pub fn try_attr_from_element<'a>(element: ElementRef<'a>, selector: &Selector, attribute: &'_ str) -> Option<String> {
+    let attr_element = element.select(selector).next();
+    if let Some(attr_element) = attr_element {
+        let attr = attr_element.attr(attribute);
+        if let Some(attr) = attr {
+            let attr = attr.to_owned();
+            return Some(attr);
+        } else {
+            return None;
+        }
+    } else {
+        return None;
+    }
+}
+
+/// Get a selection as an iterator from an element
 pub fn select_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> ElementRef<'a> {
     let element_ref: ElementRef<'a> = element.select(selector).next().unwrap();
     element_ref
 }
 
+/// Get a selection as an iterator from an element
 pub fn try_select_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> Option<ElementRef<'a>> {
     let element_ref: Option<scraper::ElementRef<'a>> = element.select(selector).next();
     element_ref
