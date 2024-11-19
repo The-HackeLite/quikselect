@@ -1,9 +1,8 @@
-use scraper::ElementRef;
-use scraper::Selector;
 use scraper::error::SelectorErrorKind;
 use scraper::html::Html;
 use scraper::html::Select;
-
+use scraper::ElementRef;
+use scraper::Selector;
 
 /// Create a new selector by providing selector string
 pub fn selector(selector_str: &'_ str) -> Selector {
@@ -12,7 +11,7 @@ pub fn selector(selector_str: &'_ str) -> Selector {
 }
 
 /// Create a new selector by providing selector string.
-pub fn try_selector(selector_str: &'_ str) -> Result<Selector, SelectorErrorKind<'_>>{
+pub fn try_selector(selector_str: &'_ str) -> Result<Selector, SelectorErrorKind<'_>> {
     let selector = Selector::parse(selector_str);
     selector
 }
@@ -65,12 +64,12 @@ pub fn try_element_inner_html(element: &ElementRef<'_>, selector: &Selector) -> 
 /// Retrieve the attribute of a document or selector.
 pub fn attr(document: &Html, selector: &Selector, attribute: &'_ str) -> String {
     let attr_element = document
-                                .select(selector)
-                                .next()
-                                .unwrap()
-                                .attr(attribute)
-                                .unwrap()
-                                .to_owned();
+        .select(selector)
+        .next()
+        .unwrap()
+        .attr(attribute)
+        .unwrap()
+        .to_owned();
     attr_element
 }
 
@@ -92,7 +91,12 @@ pub fn try_attr(document: &Html, selector: &Selector, attribute: &'_ str) -> Opt
 
 /// Retrieve text from a document or fragment.
 pub fn text(document: &Html, selector: &Selector) -> String {
-    let text = document.select(selector).next().unwrap().text().collect::<String>();
+    let text = document
+        .select(selector)
+        .next()
+        .unwrap()
+        .text()
+        .collect::<String>();
     text
 }
 
@@ -104,7 +108,7 @@ pub fn try_text(document: &Html, selector: &Selector) -> Option<String> {
         return Some(text);
     } else {
         return None;
-    }    
+    }
 }
 
 pub fn element<'a>(document: &'a Html, selector: &Selector) -> ElementRef<'a> {
@@ -119,7 +123,12 @@ pub fn try_element<'a>(document: &'a Html, selector: &Selector) -> Option<Elemen
 
 /// Retrieve text from an element.
 pub fn text_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> String {
-    let text = element.select(selector).next().unwrap().text().collect::<String>();
+    let text = element
+        .select(selector)
+        .next()
+        .unwrap()
+        .text()
+        .collect::<String>();
     text
 }
 
@@ -131,32 +140,21 @@ pub fn try_text_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -
         return Some(text);
     } else {
         return None;
-    }    
+    }
 }
 
 /// Retrieve the attribute of an element.
-pub fn attr_from_element<'a>(element: ElementRef<'a>, selector: &Selector, attribute: &'_ str) -> String {
-    let attr_element = element
-                                .select(selector)
-                                .next()
-                                .unwrap()
-                                .attr(attribute)
-                                .unwrap()
-                                .to_owned();
+pub fn attr_from_element<'a>(element: ElementRef<'a>, attribute: &'_ str) -> String {
+    let attr_element = element.attr(attribute).unwrap().to_owned();
     attr_element
 }
 
 /// Retrieve the attribute of an element.
-pub fn try_attr_from_element<'a>(element: ElementRef<'a>, selector: &Selector, attribute: &'_ str) -> Option<String> {
-    let attr_element = element.select(selector).next();
-    if let Some(attr_element) = attr_element {
-        let attr = attr_element.attr(attribute);
-        if let Some(attr) = attr {
-            let attr = attr.to_owned();
-            return Some(attr);
-        } else {
-            return None;
-        }
+pub fn try_attr_from_element<'a>(element: ElementRef<'a>, attribute: &'_ str) -> Option<String> {
+    let attr_element = element.attr(attribute);
+    if let Some(attr) = attr_element {
+        let attr = attr.to_owned();
+        return Some(attr);
     } else {
         return None;
     }
@@ -169,7 +167,10 @@ pub fn select_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> 
 }
 
 /// Get a selection as an iterator from an element
-pub fn try_select_from_element<'a>(element: ElementRef<'a>, selector: &Selector) -> Option<ElementRef<'a>> {
+pub fn try_select_from_element<'a>(
+    element: ElementRef<'a>,
+    selector: &Selector,
+) -> Option<ElementRef<'a>> {
     let element_ref: Option<scraper::ElementRef<'a>> = element.select(selector).next();
     element_ref
 }
